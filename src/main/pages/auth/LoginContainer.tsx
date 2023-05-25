@@ -1,12 +1,28 @@
-import styled from "styled-components";
-import AuthForm from "../AuthForm"
+import React, { useState } from "react";
+import AuthForm from "../auth/components/AuthForm";
+import AuthFormContainer from "../auth/components/AuthFormContainer";
+import InfoContainer from "../auth/components/InfoContainer";
+import styled, { css } from "styled-components";
+
+interface LoginContainerProps {}
+
+interface AuthFormData {
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  phone: string;
+  password: string;
+}
 
 const Container = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: #f1f1f1;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  position: relative;
   overflow: hidden;
   width: 768px;
   max-width: 100%;
@@ -14,11 +30,44 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const LoginContainer = () => { 
-    return <Container>
-        <AuthForm></AuthForm>
-    </Container>;
+const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
+  const [isLoginFormOpen, setIsLoginFormOpen] = useState(true);
 
-}
+  const handleFormToggle = () => {
+    setIsLoginFormOpen((prevIsLoginFormOpen) => !prevIsLoginFormOpen);
+  };
+
+  const handleAuthSubmit = (formData: AuthFormData) => {
+    console.log(formData);
+    // здесь можно добавить обработку отправки данных формы авторизации или регистрации
+  };
+
+  return (
+    <Container>
+      {isLoginFormOpen ? (
+        <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
+          <AuthForm
+            type="login"
+            onSubmit={handleAuthSubmit}
+            isLoginFormOpen={isLoginFormOpen}
+          />
+        </AuthFormContainer>
+      ) : (
+        <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
+          <AuthForm
+            type="register"
+            onSubmit={handleAuthSubmit}
+            formPosition="left"
+            isLoginFormOpen={isLoginFormOpen}
+          />
+        </AuthFormContainer>
+      )}
+      <InfoContainer
+        isLoginFormOpen={isLoginFormOpen}
+        onButtonClick={handleFormToggle}
+      />
+    </Container>
+  );
+};
 
 export default LoginContainer;
