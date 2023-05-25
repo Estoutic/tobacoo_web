@@ -17,11 +17,13 @@ const Container = styled.div`
 `;
 
 const Heading = styled.h2`
+  margin-left: 10%;
   color: white;
 `;
 
 const Paragraph = styled.p`
   color: white;
+  margin-left: 10%;
   margin-bottom: 24px;
 `;
 
@@ -36,22 +38,27 @@ const Button = styled.button`
   font-size: 18px;
   width: 150px;
   margin-left: 30%;
-  margin-top: 300px;
+  margin-top: 250px;
   justify-content: center;
   cursor: pointer;
 `;
 
-const InfoContainer: React.FC<InfoContainerProps> = ({ isLoginFormOpen, onButtonClick }) => {
+const InfoContainer: React.FC<InfoContainerProps> = ({
+  isLoginFormOpen,
+  onButtonClick,
+}) => {
   return (
     <Container>
-      <Heading>{isLoginFormOpen ? "Welcome back!" : "Create an account"}</Heading>
+      <Heading>
+        {isLoginFormOpen ? "Добро пожаловать!" : "Создать аккаунт"}
+      </Heading>
       <Paragraph>
         {isLoginFormOpen
-          ? "Log in to access your account and the platform features"
-          : "Join our community of passionate programmers and learners. Sign up to share, teach and learn together."}
+          ? "Вход только для взрослых! Авторизуйтесь, чтобы продолжить."
+          : "Присоединяйтесь к нам и наслаждайтесь покупками табачных изделий!"}
       </Paragraph>
       <Button onClick={onButtonClick}>
-        {isLoginFormOpen ? "Create an account" : "Log in"}
+        {isLoginFormOpen ? "Создать аккаунт" : "Войти"}
       </Button>
     </Container>
   );

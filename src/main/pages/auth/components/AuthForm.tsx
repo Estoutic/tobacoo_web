@@ -23,7 +23,7 @@ const Input = styled.input`
   margin-bottom: 20px;
   border: 1px solid #333333;
   border-radius: 5px;
-  color: #333333;
+  color: #ffffff;
 `;
 
 const Title = styled.h2`
@@ -51,8 +51,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
     if (
       type === "login" ||
       formData.firstName ||
-      formData.lastName ||
-      formData.username
+      formData.surName ||
+      formData.lastName
     ) {
       onSubmit(formData);
     }
@@ -63,14 +63,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
       formPosition={type === "login" ? "left" : "right"}
       onSubmit={handleSubmit}
     >
-      <Title>{type === "login" ? "Log in" : "Register"}</Title>
+      <Title>{type === "login" ? "Войти" : "Создать акканут"}</Title>
       <div>
         <Input
           type="phone"
           name="phone"
           value={formData.phone}
           onChange={handleInputChange}
-          placeholder="Phone number"
+          placeholder="Номер телефона"
           required
         />
       </div>
@@ -80,7 +80,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
           name="password"
           value={formData.password}
           onChange={handleInputChange}
-          placeholder="Password"
+          placeholder="Пароль"
           minLength={6}
           required
         />
@@ -93,7 +93,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
               name="firstName"
               value={formData.firstName || ""}
               onChange={handleInputChange}
-              placeholder="First name"
+              placeholder="Имя"
+            />
+          </div>
+          <div>
+            <Input
+              type="text"
+              name="surName"
+              value={formData.surName || ""}
+              onChange={handleInputChange}
+              placeholder="Фамилия"
             />
           </div>
           <div>
@@ -102,21 +111,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
               name="lastName"
               value={formData.lastName || ""}
               onChange={handleInputChange}
-              placeholder="Last name"
-            />
-          </div>
-          <div>
-            <Input
-              type="text"
-              name="username"
-              value={formData.username || ""}
-              onChange={handleInputChange}
-              placeholder="Username"
+              placeholder="Отчество"
             />
           </div>
         </>
       )}
-      <button type="submit">{type === "login" ? "Log in" : "Register"}</button>
+      <button type="submit">{type === "login" ? "Войти" : "Создать"}</button>
     </Form>
   );
 };

@@ -3,16 +3,19 @@ import AuthForm from "../auth/components/AuthForm";
 import AuthFormContainer from "../auth/components/AuthFormContainer";
 import InfoContainer from "../auth/components/InfoContainer";
 import styled, { css } from "styled-components";
+import useUserAuth from "../../../api/user/useUserAuth";
 
 interface LoginContainerProps {}
 
 interface AuthFormData {
   firstName?: string;
+  surName?: string;
   lastName?: string;
-  username?: string;
+  bonus?: number;
   phone: string;
   password: string;
 }
+
 
 const Container = styled.div`
   position: fixed;
@@ -31,7 +34,10 @@ const Container = styled.div`
 `;
 
 const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
+  
   const [isLoginFormOpen, setIsLoginFormOpen] = useState(true);
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleFormToggle = () => {
     setIsLoginFormOpen((prevIsLoginFormOpen) => !prevIsLoginFormOpen);
@@ -39,7 +45,15 @@ const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
 
   const handleAuthSubmit = (formData: AuthFormData) => {
     console.log(formData);
-    // здесь можно добавить обработку отправки данных формы авторизации или регистрации
+
+  };
+
+  const { data: user, isLoading, isError } = useUserAuth(phone, password);
+  
+const handleLoginSubmit = (formData: AuthFormData) => {
+    setPhone(formData.phone);
+    setPassword(formData.password);
+    console.log(user);
   };
 
   return (
@@ -48,7 +62,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
         <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
           <AuthForm
             type="login"
-            onSubmit={handleAuthSubmit}
+            onSubmit={handleLoginSubmit}
             isLoginFormOpen={isLoginFormOpen}
           />
         </AuthFormContainer>
