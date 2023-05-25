@@ -11,7 +11,7 @@ interface AuthFormData {
   firstName?: string;
   lastName?: string;
   username?: string;
-  email: string;
+  phone: string;
   password: string;
 }
 
@@ -25,15 +25,14 @@ const rotateY = keyframes`
 `;
 
 const Form = styled.form<FormProps>`
-  margin-left:40px ;
+  margin-left: 40px;
   padding: 16px;
-  width: 100%;
+  width: 60%;
   animation: ${rotateY} 0.5s linear;
 
   ${({ formPosition }) =>
     formPosition === "right" &&
     css`
-      animation-direction: reverse;
       transform: scaleX(-1);
     `}
 `;
@@ -57,7 +56,7 @@ const Button = styled.button`
   border: 1px solid #ffffff;
   border-radius: 30px;
   font-size: 18px;
-  width:150px ;
+  width: 150px;
   margin-left: 30%;
   margin-top: 300px;
   justify-content: center;
@@ -72,7 +71,7 @@ const AuthFormContainer = styled.div`
   align-items: center;
   transition: transform 0.5s;
 
-  ${({ isLoginFormOpen = false }) =>
+  ${({ isLoginFormOpen }) =>
     isLoginFormOpen
       ? css`
           transform: scaleX(1);
@@ -81,10 +80,17 @@ const AuthFormContainer = styled.div`
           transform: scaleX(-1);
         `}
 `;
+const RegisterForm = styled(Form)`
+  margin-left: 0;
+`;
 
-const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
+const AuthForm = ({
+  type,
+  onSubmit,
+  isLoginFormOpen,
+}: AuthFormProps & { isLoginFormOpen: boolean }) => {
   const [formData, setFormData] = useState<AuthFormData>({
-    email: "",
+    phone: "",
     password: "",
   });
 
@@ -99,7 +105,14 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    if (
+      type === "login" ||
+      formData.firstName ||
+      formData.lastName ||
+      formData.username
+    ) {
+      onSubmit(formData);
+    }
   };
 
   return (
@@ -109,20 +122,15 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
     >
       <h2>{type === "login" ? "Log in" : "Register"}</h2>
       <div>
-        <label>
-          Email
           <input
-            type="email"
-            name="email"
-            value={formData.email}
+            type="phone"
+            name="phone"
+            value={formData.phone}
             onChange={handleInputChange}
             required
           />
-        </label>
       </div>
       <div>
-        <label>
-          Password
           <input
             type="password"
             name="password"
@@ -131,42 +139,32 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
             minLength={6}
             required
           />
-        </label>
       </div>
       {type === "register" && (
         <>
           <div>
-            <label>
-              First Name
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName || ""}
                 onChange={handleInputChange}
               />
-            </label>
           </div>
           <div>
-            <label>
-              Last Name
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName || ""}
                 onChange={handleInputChange}
               />
-            </label>
           </div>
           <div>
-            <label>
-              Username
               <input
                 type="text"
                 name="username"
                 value={formData.username || ""}
                 onChange={handleInputChange}
               />
-            </label>
           </div>
         </>
       )}
@@ -184,21 +182,37 @@ const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
 
   const handleAuthSubmit = (formData: AuthFormData) => {
     console.log(formData);
-    // здесь можно добавить обработку отправки данных формы авторизации
+    // здесь можно добавить обработку отправки данных формы авторизации или регистрации
   };
-
   return (
     <>
-      <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
-        {isLoginFormOpen ? (
-          <AuthForm type="login" onSubmit={handleAuthSubmit} />
-        ) : (
-          <AuthForm type="register" onSubmit={handleAuthSubmit} />
-        )}
-      </AuthFormContainer>
+      {isLoginFormOpen ? (
+        <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
+          <AuthForm
+            type="login"
+            onSubmit={handleAuthSubmit}
+            isLoginFormOpen={isLoginFormOpen}
+          />
+        </AuthFormContainer>
+      ) : (
+        <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
+          <AuthForm
+            type="register"
+            onSubmit={handleAuthSubmit}
+            formPosition="left"
+            isLoginFormOpen={isLoginFormOpen}
+          />
+        </AuthFormContainer>
+      )}
       <InfoContainer>
+        <h2>{isLoginFormOpen ? "Welcome back!" : "Create an account"}</h2>
+        <p>
+          {isLoginFormOpen
+            ? "Log in to access your account and the platform features"
+            : "Join our community of passionate programmers and learners. Sign up to share, teach and learn together."}
+        </p>
         <Button onClick={handleFormToggle}>
-          {isLoginFormOpen ? "Register" : "Log in"}
+          {isLoginFormOpen ? "Create an account" : "Log in"}
         </Button>
       </InfoContainer>
     </>
