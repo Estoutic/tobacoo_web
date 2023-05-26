@@ -4,6 +4,7 @@ import AuthFormContainer from "../auth/components/AuthFormContainer";
 import InfoContainer from "../auth/components/InfoContainer";
 import styled, { css } from "styled-components";
 import useUserAuth from "../../../api/user/useUserAuth";
+import useUserRegistration from "../../../api/user/useUserRegistration";
 
 interface LoginContainerProps {}
 
@@ -15,7 +16,6 @@ interface AuthFormData {
   phone: string;
   password: string;
 }
-
 
 const Container = styled.div`
   position: fixed;
@@ -34,26 +34,21 @@ const Container = styled.div`
 `;
 
 const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
-  
   const [isLoginFormOpen, setIsLoginFormOpen] = useState(true);
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+
+  const userRegistrationMutation = useUserRegistration();
+  const userAuthMutation = useUserAuth();
 
   const handleFormToggle = () => {
     setIsLoginFormOpen((prevIsLoginFormOpen) => !prevIsLoginFormOpen);
   };
 
   const handleAuthSubmit = (formData: AuthFormData) => {
-    console.log(formData);
-
+    userRegistrationMutation.mutate(formData);
   };
 
-  const { data: user, isLoading, isError } = useUserAuth(phone, password);
-  
-const handleLoginSubmit = (formData: AuthFormData) => {
-    setPhone(formData.phone);
-    setPassword(formData.password);
-    console.log(user);
+  const handleLoginSubmit = (formData: AuthFormData) => {
+    userAuthMutation.mutate(formData);
   };
 
   return (
