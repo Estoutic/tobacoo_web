@@ -5,6 +5,7 @@ import InfoContainer from "../auth/components/InfoContainer";
 import styled, { css } from "styled-components";
 import useUserAuth from "../../../api/user/useUserAuth";
 import useUserRegistration from "../../../api/user/useUserRegistration";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface LoginContainerProps {}
 
@@ -33,7 +34,8 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
+const LoginContainer: React.FC<LoginContainerProps> = () => {
+  const navigate = useNavigate();
   const [isLoginFormOpen, setIsLoginFormOpen] = useState(true);
 
   const userRegistrationMutation = useUserRegistration();
@@ -44,11 +46,17 @@ const LoginContainer: React.FC<LoginContainerProps> = ({}) => {
   };
 
   const handleAuthSubmit = (formData: AuthFormData) => {
-    userRegistrationMutation.mutate(formData);
+    userRegistrationMutation.mutateAsync(formData).then(() => {
+      navigate("/home");
+      console.log("navigated");
+    });
   };
 
   const handleLoginSubmit = (formData: AuthFormData) => {
-    userAuthMutation.mutate(formData);
+    userAuthMutation.mutateAsync(formData).then(() => {
+      navigate("/home");
+      console.log("navigated");
+    });
   };
 
   return (
