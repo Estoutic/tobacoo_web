@@ -20,7 +20,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   console.log(window.localStorage.getItem("auth_token"));
   return (
     <AuthContext.Provider value={{ isAuthenticated }}>
-      {<Navigate to = {isAuthenticated? "/home" : "/login"}/>}
+      {<Navigate to = {isAuthenticated? "/" : "/login"}/>}
       {children}
     </AuthContext.Provider>
   );

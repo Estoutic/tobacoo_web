@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthForm from "../auth/components/AuthForm";
 import AuthFormContainer from "../auth/components/AuthFormContainer";
 import InfoContainer from "../auth/components/InfoContainer";
 import styled, { css } from "styled-components";
 import useUserAuth from "../../../api/user/useUserAuth";
 import useUserRegistration from "../../../api/user/useUserRegistration";
-import { Navigate, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 
 interface LoginContainerProps {}
 
@@ -36,6 +36,7 @@ const Container = styled.div`
 
 const LoginContainer: React.FC<LoginContainerProps> = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoginFormOpen, setIsLoginFormOpen] = useState(true);
 
   const userRegistrationMutation = useUserRegistration();
@@ -47,17 +48,22 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
 
   const handleAuthSubmit = (formData: AuthFormData) => {
     userRegistrationMutation.mutateAsync(formData).then(() => {
-      navigate("/home");
+      window.location.href = "/";
       console.log("navigated");
     });
   };
 
   const handleLoginSubmit = (formData: AuthFormData) => {
     userAuthMutation.mutateAsync(formData).then(() => {
-      navigate("/home");
+      window.location.href = "/";
       console.log("navigated");
     });
   };
+
+  useEffect(() => {
+    console.log("isLoginFormOpen:", isLoginFormOpen);
+    console.log("location:", location);
+  }, [isLoginFormOpen, location]);
 
   return (
     <Container>
