@@ -25,11 +25,14 @@
 body,html {
   width: 100% ;
   height: 100% ;
+  background-color: rgb(194, 137, 30);
+  
 }
 
 body {
   line-height: inherit;
   margin: 0
+  padding-bottom: 10px;
 }
 
 

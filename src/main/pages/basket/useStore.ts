@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 
 type CartItem = {
   id: number;
@@ -13,6 +14,7 @@ type CartStore = {
   addToCart: (product: CartItem, count: number) => void;
   removeFromCart: (id: number) => void; // новый метод для удаления товара
 };
+
 
 const useStore = create<CartStore>((set) => ({
   cartItems: [],
@@ -59,6 +61,12 @@ const useStore = create<CartStore>((set) => ({
         return state;
       }
     });
+  },
+  clearCart: () => {
+    set(() => ({
+      cartItems: [],
+      totalPrice: 0,
+    }));
   },
 }));
 

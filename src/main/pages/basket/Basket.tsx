@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import useStore from "./useStore";
-import { CartItem } from "./useStore"; // импортируем тип CartItem
 import styled from "styled-components";
 import TopBar from "../home/topbar/TopBar";
+import Modal from "./Modal";
 
 const CartContainer = styled.div`
   margin-top: 100px;
@@ -13,6 +13,7 @@ const CartTableContainer = styled.table`
   border-collapse: collapse;
   width: 90%;
 `;
+
 const ProductImage = styled.img`
   width: 35px;
   height: 30px;
@@ -46,6 +47,7 @@ const CartButton = styled.button`
   height: 60%;
   margin-left: 5%;
 `;
+
 const CartTotalRow = styled.tr`
   background-color: #393e46;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -62,9 +64,25 @@ const RemoveFromCartButton: React.FC<Props> = ({ onClick }) => {
   return <CartButton onClick={onClick}>Убрать</CartButton>;
 };
 
-const Basket: React.FC = () => {
-  const { cartItems, removeFromCart } = useStore();
-  const total = cartItems.reduce((acc, curr) => acc + curr.count * curr.price, 0);
+const Cart: React.FC = () => {
+    const { cartItems, removeFromCart, clearCart } = useStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const total = cartItems.reduce(
+    (acc, curr) => acc + curr.count * curr.price,
+    0
+  );
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    clearCart(); 
+
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
     <>
       <TopBar />
@@ -76,7 +94,7 @@ const Basket: React.FC = () => {
               <CartTableHeaderCell>Фото</CartTableHeaderCell>
               <CartTableHeaderCell>Цена</CartTableHeaderCell>
               <CartTableHeaderCell>Количество</CartTableHeaderCell>
-              <CartTableHeaderCell>Общяя сумма</CartTableHeaderCell>
+              <CartTableHeaderCell>Общая сумма</CartTableHeaderCell>
               <CartTableHeaderCell></CartTableHeaderCell>
             </tr>
           </thead>
@@ -95,20 +113,25 @@ const Basket: React.FC = () => {
                   <RemoveFromCartButton
                     onClick={() => removeFromCart(item.id)}
                   />
-                </CartTableCell>{" "}
-                {/* кнопка "Убрать из корзины" */}
+                </CartTableCell>
               </CartTableRow>
             ))}
             <CartTotalRow>
               <CartTableCell colSpan={4}>Общая сумма:</CartTableCell>
               <CartTableCell>{total}</CartTableCell>
-              <CartTableCell></CartTableCell>
+              <CartTableCell>
+                <CartButton onClick={handleOpenModal}>
+                  Оформить заказ
+                </CartButton>
+              </CartTableCell>
             </CartTotalRow>
           </tbody>
         </CartTableContainer>
+
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
       </CartContainer>
     </>
   );
 };
 
-export default Basket;
+export default Cart;
