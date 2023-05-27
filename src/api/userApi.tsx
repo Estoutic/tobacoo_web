@@ -21,6 +21,32 @@ interface Product {
   count: number;
   categoryId: string;
 }
+interface ProductPurchase{
+  id: string;
+  count: number;
+}
+
+export async function purchase(purchaseData: ProductPurchase[]) :Promise<void>{
+  console.log(purchaseData);
+  const body = {
+    products: purchaseData
+  };
+  try {
+    const response: AxiosResponse<AuthFormData> = await axios.post(
+      "http://0.0.0.0:8080/purchase",
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data.token);
+  } catch (error: any) {
+    console.error(error);
+  }
+}
 
 export async function loginUser(
   phone: string,

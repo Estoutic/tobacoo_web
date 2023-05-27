@@ -3,6 +3,7 @@ import useStore from "./useStore";
 import styled from "styled-components";
 import TopBar from "../home/topbar/TopBar";
 import Modal from "./Modal";
+import useProductPurchase from "../../../api/product/useProducrPurchase";
 
 const CartContainer = styled.div`
   margin-top: 100px;
@@ -60,28 +61,49 @@ type Props = {
   onClick: () => void;
 };
 
+interface ProductPurchase {
+  id: string;
+  count: number;
+}
+type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+  count: number;
+  imageLink: string;
+};
+
 const RemoveFromCartButton: React.FC<Props> = ({ onClick }) => {
   return <CartButton onClick={onClick}>Убрать</CartButton>;
 };
 
 const Cart: React.FC = () => {
-    const { cartItems, removeFromCart, clearCart } = useStore();
+  const { cartItems, removeFromCart, clearCart } = useStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const total = cartItems.reduce(
     (acc, curr) => acc + curr.count * curr.price,
     0
   );
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    clearCart(); 
 
+  const { mutate } = useProductPurchase();
+
+  const handleOpenModal = () => {
+    const productPurchases: ProductPurchase[] = cartItems.map(
+      (item: CartItem): ProductPurchase => ({
+        id: item.id.toString(),
+        count: item.count,
+      })
+    );
+    console.log(cartItems);
+    mutate(productPurchases);
+    setIsModalOpen(true);
+    clearCart();
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
 
   return (
     <>

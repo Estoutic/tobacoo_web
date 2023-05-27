@@ -53,6 +53,8 @@ const ProductContainer = () => {
   const location = useLocation();
 
   const categoryName = decodeURI(location.pathname).substring(1);
+  console.log({categoryName});
+  
   const { data } = useProducts(categoryName);
   console.log(data);
   const [counts, setCounts] = useState(data ? Array(data.length).fill(0) : []);

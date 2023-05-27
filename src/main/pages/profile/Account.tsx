@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import TopBar from "../home/topbar/TopBar";
-import useProductCategories from "../../../api/product/useProductCategories";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -71,13 +70,8 @@ type UserData = {
   token: string;
 };
 
-type AccountProps = {
-  user: UserData;
-};
 const Account = () => {
   const [user, setUser] = useState<UserData | null>(null);
-
-  const { data, isLoading, isError } = useProductCategories();
 
   useEffect(() => {
     const userData = window.localStorage.getItem("userData");

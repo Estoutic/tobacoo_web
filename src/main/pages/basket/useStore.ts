@@ -63,7 +63,9 @@ const useStore = create<CartStore>((set) => ({
     });
   },
   clearCart: () => {
-    set(() => ({
+    
+    set(() => (
+        {
       cartItems: [],
       totalPrice: 0,
     }));
