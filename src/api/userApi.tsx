@@ -83,11 +83,11 @@ export async function getCategories(): Promise<CategoryDTO[]> {
   }
 }
 
-export async function getProducts(id: string): Promise<Product[]> {
+export async function getProducts(categoryName: string): Promise<Product[]> {
   try {
     const response: AxiosResponse<Product[]> = await axios.get<
     Product[]
-    >(`http://0.0.0.0:8080/product/category/${id}`, {
+    >(`http://0.0.0.0:8080/product/category/${categoryName}`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
       },

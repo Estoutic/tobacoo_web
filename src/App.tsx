@@ -17,7 +17,7 @@ function App() {
           <Route  path="/login" element={<LoginContainer/>} />
           <Route  path="/" element={<HomePage/>} />
           <Route  path="/account" element={<Account/>} />
-          <Route path="/category/:id" element={<ProductPage />} />
+          <Route path="/:id" element={<ProductPage />} />
 
           {/* {categories.map((category) => (
               <Route

@@ -40,12 +40,8 @@ const TopBar = () => {
   console.log(data);
 
   if (!data) {
-    return null; // возвращаем null, если данные не определены
+    return null; // пока данные не загружены, возвращаем null
   }
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, []);
   
   return (
     <TopBarContainer>
@@ -53,7 +49,7 @@ const TopBar = () => {
         <ProfileImage src="profile.svg " alt="profile" />
       </Link>
       {data.map((category) => (
-        <Link key={category.id} to={`/category/${category.name} `}>
+        <Link key={category.id} to={`/${category.name} `}>
           <CategoryButton>{category.name}</CategoryButton>
         </Link>
       ))}
