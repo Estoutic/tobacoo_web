@@ -5,8 +5,6 @@ import LoginContainer from "./main/pages/auth/LoginContainer";
 import HomePage from "./main/pages/home/HomePage";
 import ProductPage from "./main/pages/product/ProductPage";
 import Account from "./main/pages/profile/Account";
-import ProductProvider from "./ProductContext";
-
 
 function App() {
 
@@ -15,12 +13,11 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <ProductProvider>
         <Routes>
           <Route  path="/login" element={<LoginContainer/>} />
           <Route  path="/" element={<HomePage/>} />
           <Route  path="/account" element={<Account/>} />
-          <Route path="/:id" element={<ProductPage />} />
+          <Route path="/category/:id" element={<ProductPage />} />
 
           {/* {categories.map((category) => (
               <Route
@@ -30,7 +27,6 @@ function App() {
               />
             ))} */}
         </Routes>
-        </ProductProvider>
       </AuthProvider>
     </Router>
   );

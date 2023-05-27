@@ -3,12 +3,7 @@ import TopBar from "./topbar/TopBar";
 import useProductCategories from "../../../api/product/useProductCategories";
 
 const HomePage = () => {
-  const { data, isLoading, isError } = useProductCategories();
-  
-  useEffect(() => {
-    console.log(data);
-  }, []);
-  
+
   return (
     <>
       <TopBar/>

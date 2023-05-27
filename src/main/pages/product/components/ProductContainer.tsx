@@ -27,9 +27,9 @@ const Title = styled.a`
 
 
 
-const ProductContainer = (categoryId: string) => {
-  const {data} = useProducts(categoryId);
-  console.log(data);
+const ProductContainer = () => {
+  // const {data} = useProducts(categoryId);
+  // console.log(data);
 
   return (
     <section id={"1"}>

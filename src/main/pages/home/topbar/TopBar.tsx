@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../../../../ProductContext";
+import useProductCategories from "../../../../api/product/useProductCategories";
 
 const TopBarContainer = styled.div`
   background-color: #393e46;
@@ -36,15 +36,24 @@ const CategoryButton = styled.button`
 `;
 
 const TopBar = () => {
-  const { categories } = useContext(ProductContext);
-  console.log(categories);
+  const { data } = useProductCategories();
+  console.log(data);
+
+  if (!data) {
+    return null; // возвращаем null, если данные не определены
+  }
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, []);
+  
   return (
     <TopBarContainer>
       <Link to="/account">
         <ProfileImage src="profile.svg " alt="profile" />
       </Link>
-      {categories.map((category) => (
-        <Link key={category.id} to={`/${category.customId} `} id={category.id}>
+      {data.map((category) => (
+        <Link key={category.id} to={`/category/${category.name} `}>
           <CategoryButton>{category.name}</CategoryButton>
         </Link>
       ))}
