@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import TopBar from "./topbar/TopBar";
+import useProductCategories from "../../../api/product/useProductCategories";
 
 const HomePage = () => {
-    return (
-      <a>Hello</a>
-    );
-  };
+  const { data, isLoading, isError } = useProductCategories();
   
-  export default HomePage;
+  useEffect(() => {
+    console.log(data);
+  }, []);
+  
+  return (
+    <>
+      <TopBar/>
+    </>
+  );
+};
+
+export default HomePage;

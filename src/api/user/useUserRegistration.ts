@@ -16,8 +16,8 @@ const useUserAuth = (): UseMutationResult<number,AxiosError,Params> =>{
   const queryClient = useQueryClient();
 
   return useMutation((data: Params) => registerUser(data),{
-    onSuccess: (id: number) => {
-      console.log(id);
+    onSuccess: (data) => {
+      console.log(data);
     }
   })
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AuthForm from "../auth/components/AuthForm";
 import AuthFormContainer from "../auth/components/AuthFormContainer";
 import InfoContainer from "../auth/components/InfoContainer";
-import styled, { css } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 import useUserAuth from "../../../api/user/useUserAuth";
 import useUserRegistration from "../../../api/user/useUserRegistration";
 import {useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +17,16 @@ interface AuthFormData {
   phone: string;
   password: string;
 }
+const GlobalStyle = createGlobalStyle`
+  body {
+    color: black;
+    margin: 0;
+    padding: 0;
+    width: 100% ;
+    height: 100% ;
+    background-color: #aea8a8 ;
+  }
+`;
 
 const Container = styled.div`
   position: fixed;
@@ -47,14 +57,16 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
   };
 
   const handleAuthSubmit = (formData: AuthFormData) => {
-    userRegistrationMutation.mutateAsync(formData).then(() => {
+    userRegistrationMutation.mutateAsync(formData).then((data) => {
+      window.localStorage.setItem("userData", JSON.stringify(data));
       window.location.href = "/";
       console.log("navigated");
     });
   };
 
   const handleLoginSubmit = (formData: AuthFormData) => {
-    userAuthMutation.mutateAsync(formData).then(() => {
+    userAuthMutation.mutateAsync(formData).then((data) => {
+      window.localStorage.setItem("userData", JSON.stringify(data));
       window.location.href = "/";
       console.log("navigated");
     });
@@ -66,6 +78,8 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
   }, [isLoginFormOpen, location]);
 
   return (
+    // <> 
+    // <GlobalStyle/>
     <Container>
       {isLoginFormOpen ? (
         <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
@@ -90,6 +104,7 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
         onButtonClick={handleFormToggle}
       />
     </Container>
+    // </>
   );
 };
 

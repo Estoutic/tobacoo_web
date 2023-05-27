@@ -9,6 +9,19 @@ interface AuthFormData {
   password: string;
 }
 
+interface CategoryDTO {
+  id: string;
+  name: string;
+}
+interface Product {
+  id: string;
+  name: string;
+  imageLink: string;
+  price: number;
+  count: number;
+  categoryId: string;
+}
+
 export async function loginUser(
   phone: string,
   password: string
@@ -17,10 +30,10 @@ export async function loginUser(
     const body = { phone, password }; // задаем параметры в request body
     const response: AxiosResponse<AuthFormData> = await axios.post(
       "http://0.0.0.0:8080/login",
-       body,
-       {
+      body,
+      {
         headers: {
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
       }
     );
@@ -54,12 +67,44 @@ export async function registerUser(userData: AuthFormData): Promise<number> {
   }
 }
 
+export async function getCategories(): Promise<CategoryDTO[]> {
+  try {
+    const response: AxiosResponse<CategoryDTO[]> = await axios.get<
+      CategoryDTO[]
+    >("http://0.0.0.0:8080/category/all", {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getProducts(id: string): Promise<Product[]> {
+  try {
+    const response: AxiosResponse<Product[]> = await axios.get<
+    Product[]
+    >(`http://0.0.0.0:8080/product/category/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 export const getAuthToken = () => {
-  return window.localStorage.getItem('auth_token');
+  return window.localStorage.getItem("auth_token");
 };
 
 export const setAuthHeader = (token) => {
-  window.localStorage.setItem('auth_token', token);
+  window.localStorage.setItem("auth_token", token);
 };
 
 export async function checkAuth(): Promise<boolean> {
