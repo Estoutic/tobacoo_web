@@ -2,7 +2,8 @@ import styled from "styled-components";
 import React, { useContext, useRef, useState } from "react";
 import useProducts from "../../../../api/product/useProducts";
 import { useLocation } from "react-router-dom";
-import { Product } from "./types";
+import userStore from "../../basket/useStore";
+import useStore from "../../basket/useStore";
 
 const ProductTableContainer = styled.table`
   margin-top: 100px;
@@ -55,7 +56,7 @@ const ProductContainer = () => {
   const { data } = useProducts(categoryName);
   console.log(data);
   const [counts, setCounts] = useState(data ? Array(data.length).fill(0) : []);
-
+  const { addToCart } = useStore();
   if (!data) {
     //проверка data
     return null;
@@ -86,6 +87,21 @@ const ProductContainer = () => {
 
           const handleButtonClick = () => {
             console.log("Количество добавленных продуктов: ", counts[index]);
+            addToCart(
+              {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                imageLink: product.imageLink,
+              },
+              counts[index]
+            );
+
+            setCounts((prevCounts) => {
+              const newCounts = [...prevCounts];
+              newCounts[index] = 0;
+              return newCounts;
+            });
           };
 
           return (

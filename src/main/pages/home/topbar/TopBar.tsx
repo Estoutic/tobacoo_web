@@ -18,8 +18,9 @@ const ProfileImage = styled.img`
   padding-top: 10px;
   width: 40px;
   height: 40px;
-  position: fixed;
   color: white;
+  margin-left: 30px;
+  
 `;
 
 const CategoryButton = styled.button`
@@ -40,9 +41,9 @@ const TopBar = () => {
   console.log(data);
 
   if (!data) {
-    return null; // пока данные не загружены, возвращаем null
+    return null;
   }
-  
+
   return (
     <TopBarContainer>
       <Link to="/account">
@@ -53,6 +54,9 @@ const TopBar = () => {
           <CategoryButton>{category.name}</CategoryButton>
         </Link>
       ))}
+      <Link to="/basket">
+        <ProfileImage src="shopping-cart.svg " alt="profile" />
+      </Link>
     </TopBarContainer>
   );
 };
