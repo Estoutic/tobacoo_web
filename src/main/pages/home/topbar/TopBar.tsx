@@ -50,8 +50,8 @@ const TopBar = () => {
         <ProfileImage src="profile.svg " alt="profile" />
       </Link>
       {data.map((category) => (
-        <Link key={category.id} to={`/${category.name} `}>
-          <CategoryButton>{category.name}</CategoryButton>
+        <Link key={category.id} to={`/${category.name}` } state={{ some: "value" }}>
+          <CategoryButton>{category.title}</CategoryButton>
         </Link>
       ))}
       <Link to="/basket">

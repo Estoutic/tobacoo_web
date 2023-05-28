@@ -50,6 +50,10 @@ const ProductButton = styled.button`
 `;
 
 const ProductContainer = () => {
+
+  // let {state} = useLocation();
+  // console.log(state);
+  
   const location = useLocation();
 
   const categoryName = decodeURI(location.pathname).substring(1);

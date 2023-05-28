@@ -4,8 +4,7 @@ import ProductContainer from "./components/ProductContainer";
 import TopBar from "../home/topbar/TopBar";
 
 const ProductPage = () => {
-  const { id } = useParams();
-
+  
   return (
     <>
       <TopBar />

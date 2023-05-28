@@ -12,6 +12,7 @@ interface AuthFormData {
 interface CategoryDTO {
   id: string;
   name: string;
+  title: string;
 }
 interface Product {
   id: string;
