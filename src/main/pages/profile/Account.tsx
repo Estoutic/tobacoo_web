@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useUserEdit from "../../../api/user/useUserEdit";
 import styled, { createGlobalStyle } from "styled-components";
 import TopBar from "../home/topbar/TopBar";
 
@@ -7,8 +8,8 @@ const GlobalStyle = createGlobalStyle`
     color: black;
     margin: 0;
     padding: 0;
-    width: 100% ;
-    height: 100% ;
+    width: 100%;
+    height: 100%;
     background-color: #f0f0f0 ;
   }
 `;
@@ -20,7 +21,7 @@ const Container = styled.div`
   position: absolute;
   width: 25%;
   height: 50%;
-  
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -36,9 +37,7 @@ const Title = styled.h1`
   height: 50px;
   color: white;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-
 `;
-
 const List = styled.ul`
   list-style: none;
   text-align: center;
@@ -53,21 +52,48 @@ const ListItem = styled.li`
 `;
 
 const Item = styled.div`
-  padding-top: 15px;
-  height: 40px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+const Label = styled.label`
+  text-align: right;
+  margin-right: 10px;
+  padding-top: 10px;
+  color: white;
+`;
+
+const Input = styled.input`
+  font-size: 16px;
+  flex: 1;
+  padding: 8px;
+`;
+const Button = styled.button`
+  background: #00adb5;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  background-color: #393e46;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  margin-top: 15px;
+  cursor: pointer;
+  /* margin-top: 20px; */
+  font-size: 18px;
+  margin-left:30% ;
+  transition: all 0.3s linear;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 type UserData = {
   id: number;
   firstName: string;
-  lastName: string;
   surName: string;
-  bonus: number;
+  lastName: string;
   phone: string;
-  token: string;
+  password: string;
 };
 
 const Account = () => {
@@ -80,28 +106,76 @@ const Account = () => {
       setUser(JSON.parse(userData));
     }
   }, []);
-
+  const userAuthMutation = useUserEdit();
+  useEffect(() => {
+    window.localStorage.setItem("userData", JSON.stringify(user));
+  }, [user]);
+  const handleShowData = () => {
+    const token = userAuthMutation.mutateAsync(user);
+    console.log(`Данные пользователя: ${user}`);
+  };
   return (
     <>
       <GlobalStyle />
-    <TopBar/>
+      <TopBar />
       <Container>
         <Title>Личный кабинет</Title>
-
         <List>
           {user && (
             <ListItem>
-              <Item>Имя: {`${user.firstName}`}</Item>
-              <Item>Фамилия: {`${user.surName}`}</Item>
-              <Item>Отчество: {`${user.lastName}`}</Item>
-              <Item>Бонусы: {user.bonus}</Item>
-              <Item>Телефон: {user.phone}</Item>
+              <form>
+                <Item>
+                  <Label>Имя:</Label>
+                  <Input
+                    value={user.firstName}
+                    onChange={(e) =>
+                      setUser({ ...user, firstName: e.target.value })
+                    }
+                  />
+                </Item>
+                <Item>
+                  <Label>Фамилия:</Label>
+                  <Input
+                    value={user.surName}
+                    onChange={(e) =>
+                      setUser({ ...user, surName: e.target.value })
+                    }
+                  />
+                </Item>
+                <Item>
+                  <Label>Отчество:</Label>
+                  <Input
+                    value={user.lastName}
+                    onChange={(e) =>
+                      setUser({ ...user, lastName: e.target.value })
+                    }
+                  />
+                </Item>
+                <Item>
+                  <Label>Телефон:</Label>
+                  <Input
+                    value={user.phone}
+                    onChange={(e) =>
+                      setUser({ ...user, phone: e.target.value })
+                    }
+                  />
+                </Item>
+                <Item>
+                  <Label>Пароль:</Label>
+                  <Input
+                    value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
+                  />
+                </Item>
+              </form>
             </ListItem>
           )}
         </List>
+        <Button onClick={handleShowData}>Обновить</Button>
       </Container>
     </>
   );
 };
-
 export default Account;

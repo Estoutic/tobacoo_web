@@ -22,15 +22,15 @@ interface Product {
   count: number;
   categoryId: string;
 }
-interface ProductPurchase{
+interface ProductPurchase {
   id: string;
   count: number;
 }
 
-export async function purchase(purchaseData: ProductPurchase[]) :Promise<void>{
+export async function purchase(purchaseData: ProductPurchase[]): Promise<void> {
   console.log(purchaseData);
   const body = {
-    products: purchaseData
+    products: purchaseData,
   };
   try {
     const response: AxiosResponse<AuthFormData> = await axios.post(
@@ -73,6 +73,28 @@ export async function loginUser(
   }
 }
 
+export async function editUser(userData: AuthFormData): Promise<string> {
+  console.log(userData);
+  try {
+    const response: AxiosResponse<string> = await axios.post(
+      "http://0.0.0.0:8080/user",
+      userData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+      }
+    );
+    console.log(response.data);
+    setAuthHeader(response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error(error);
+    return "";
+  }
+}
+
 export async function registerUser(userData: AuthFormData): Promise<number> {
   console.log(userData);
   try {
@@ -112,13 +134,14 @@ export async function getCategories(): Promise<CategoryDTO[]> {
 
 export async function getProducts(categoryName: string): Promise<Product[]> {
   try {
-    const response: AxiosResponse<Product[]> = await axios.get<
-    Product[]
-    >(`http://0.0.0.0:8080/product/category/${categoryName}`, {
-      headers: {
-        Authorization: `Bearer ${getAuthToken()}`,
-      },
-    });
+    const response: AxiosResponse<Product[]> = await axios.get<Product[]>(
+      `http://0.0.0.0:8080/product/category/${categoryName}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
