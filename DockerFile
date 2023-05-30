@@ -7,21 +7,21 @@ COPY ./yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
-COPY tsconfig.json ./
+COPY ./vite.config.js ./
 COPY ./public ./public/
 COPY ./src ./src/
 
-RUN yarn build-ci
+RUN yarn build
 
 #################
-#Запуск
+# Запуск
 FROM node:16.18.1-alpine AS deploy
 
 WORKDIR /app
 
 RUN yarn global add serve
 
-COPY --from=build ./app/build ./build
+COPY --from=build /app/dist ./dist
 
-#Команда для запуска сервера внутри контейнера
-CMD [ "serve", "-s", "build" ]
+# Команда для запуска сервера внутри контейнера
+CMD [ "serve", "-s", "dist" ]
