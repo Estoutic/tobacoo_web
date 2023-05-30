@@ -1,0 +1,27 @@
+FROM node:16.18.1-alpine AS build
+
+WORKDIR /app
+
+COPY ./package.json ./
+COPY ./yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+
+COPY tsconfig.json ./
+COPY ./public ./public/
+COPY ./src ./src/
+
+RUN yarn build-ci
+
+#################
+#Запуск
+FROM node:16.18.1-alpine AS deploy
+
+WORKDIR /app
+
+RUN yarn global add serve
+
+COPY --from=build ./app/build ./build
+
+#Команда для запуска сервера внутри контейнера
+CMD [ "serve", "-s", "build" ]
