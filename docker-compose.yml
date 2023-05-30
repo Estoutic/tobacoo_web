@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  web:
+  tabaco-web:
     image: tabaco_web:latest
     container_name: tabaco_web
-    restart: unles-stoped
+    restart: unless-stopped
     ports:
       - 3100:3000
 
