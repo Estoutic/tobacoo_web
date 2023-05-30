@@ -64,7 +64,6 @@ const ProductContainer = () => {
   const [counts, setCounts] = useState(data ? Array(data.length).fill(0) : []);
   const { addToCart } = useStore();
   if (!data) {
-    //проверка data
     return null;
   }
 
@@ -93,6 +92,14 @@ const ProductContainer = () => {
 
           const handleButtonClick = () => {
             console.log("Количество добавленных продуктов: ", counts[index]);
+            if(counts[index] > product.count){
+              alert(`Превышение колисетва товаров можно купить не больше ${product.count}`)
+              return;
+            }
+            if(product.count == 0){
+              alert("Извините товар закончился")
+              return;
+            }
             addToCart(
               {
                 id: product.id,

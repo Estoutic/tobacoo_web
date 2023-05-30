@@ -108,7 +108,7 @@ const Account = () => {
     if (userData) {
       setUser(userData);
     }
-  }, []);
+  }, [userData]);
   const userAuthMutation = useUserEdit();
 
   const handleShowData = () => {
