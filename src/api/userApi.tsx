@@ -54,7 +54,7 @@ export async function loginUser(
   password: string
 ): Promise<number> {
   try {
-    const body = { phone, password }; // задаем параметры в request body
+    const body = { phone, password };
     const response: AxiosResponse<AuthFormData> = await axios.post(
       "http://0.0.0.0:8080/login",
       body,
@@ -129,6 +129,21 @@ export async function getCategories(): Promise<CategoryDTO[]> {
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+export async function getUser(): Promise<AuthFormData> {
+  try {
+    const response: AxiosResponse<AuthFormData> = await axios.get<
+    AuthFormData
+    >("http://0.0.0.0:8080/account", {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
 

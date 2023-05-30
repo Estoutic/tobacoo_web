@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useUserEdit from "../../../api/user/useUserEdit";
 import styled, { createGlobalStyle } from "styled-components";
 import TopBar from "../home/topbar/TopBar";
+import useUserInfo from "../../../api/user/useUserInfo";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -79,7 +80,7 @@ const Button = styled.button`
   cursor: pointer;
   /* margin-top: 20px; */
   font-size: 18px;
-  margin-left:30% ;
+  margin-left: 30%;
   transition: all 0.3s linear;
 
   &:hover {
@@ -92,6 +93,7 @@ type UserData = {
   firstName: string;
   surName: string;
   lastName: string;
+  bonus: number;
   phone: string;
   password: string;
 };
@@ -99,19 +101,22 @@ type UserData = {
 const Account = () => {
   const [user, setUser] = useState<UserData | null>(null);
 
+  const {data: userData} = useUserInfo();
+
   useEffect(() => {
-    const userData = window.localStorage.getItem("userData");
 
     if (userData) {
-      setUser(JSON.parse(userData));
+      setUser(userData);
     }
   }, []);
   const userAuthMutation = useUserEdit();
-  useEffect(() => {
-    window.localStorage.setItem("userData", JSON.stringify(user));
-  }, [user]);
+
   const handleShowData = () => {
+    console.log("edited");
+
     const token = userAuthMutation.mutateAsync(user);
+    window.localStorage.setItem("userData", JSON.stringify(user));
+
     console.log(`Данные пользователя: ${user}`);
   };
   return (
@@ -166,6 +171,15 @@ const Account = () => {
                     value={user.password}
                     onChange={(e) =>
                       setUser({ ...user, password: e.target.value })
+                    }
+                  />
+                </Item>
+                <Item>
+                  <Label>Бонусы:</Label>
+                  <Input
+                    value={user.bonus}
+                    onChange={(e) =>
+                      alert("Нельзя так")
                     }
                   />
                 </Item>
