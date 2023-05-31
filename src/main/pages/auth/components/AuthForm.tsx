@@ -31,6 +31,23 @@ const Title = styled.h2`
   color: #333333;
 `;
 
+type AuthFormData = {
+  phone: string;
+  password: string;
+  firstName?: string;
+  surName?: string;
+  lastName?: string;
+};
+
+type AuthFormProps = {
+  type: "login" | "register";
+  onSubmit: (formData: AuthFormData) => void;
+};
+
+type FormProps = {
+  formPosition: "left" | "right";
+};
+
 const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
   const [formData, setFormData] = useState<AuthFormData>({
     phone: "",
@@ -54,7 +71,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
       formData.surName ||
       formData.lastName
     ) {
-      onSubmit(formData);
+      onSubmit({
+        phone: formData.phone,
+        password: formData.password,
+        firstName: formData.firstName,
+        surName: formData.surName,
+        lastName: formData.lastName
+      });
     }
   };
 

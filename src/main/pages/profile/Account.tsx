@@ -99,12 +99,19 @@ type UserData = {
 };
 
 const Account = () => {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData>({
+    id: 0,
+    firstName: "",
+    surName: "",
+    lastName: "",
+    bonus: 0,
+    phone: "",
+    password: "",
+  });
 
-  const {data: userData} = useUserInfo();
+  const { data: userData } = useUserInfo();
 
   useEffect(() => {
-
     if (userData) {
       setUser(userData);
     }
@@ -114,7 +121,13 @@ const Account = () => {
   const handleShowData = () => {
     console.log("edited");
 
-    const token = userAuthMutation.mutateAsync(user);
+    const token = userAuthMutation.mutateAsync({
+      phone: user.phone,
+      password: user.password,
+      firstName: user.firstName,
+      surName: user.surName,
+      lastName: user.lastName,
+    });
     window.localStorage.setItem("userData", JSON.stringify(user));
 
     console.log(`Данные пользователя: ${user}`);
@@ -178,9 +191,7 @@ const Account = () => {
                   <Label>Бонусы:</Label>
                   <Input
                     value={user.bonus}
-                    onChange={(e) =>
-                      alert("Нельзя так")
-                    }
+                    onChange={(e) => alert("Нельзя так")}
                   />
                 </Item>
               </form>

@@ -1,18 +1,18 @@
 import create from "zustand";
-import { persist } from "zustand/middleware";
 
-type CartItem = {
-  id: number;
+type Product = {
+  id: string;
   name: string;
   price: number;
   count: number;
   imageLink: string;
 };
 type CartStore = {
-  cartItems: CartItem[];
+  cartItems: Product[];
   totalPrice: number;
-  addToCart: (product: CartItem, count: number) => void;
-  removeFromCart: (id: number) => void; // новый метод для удаления товара
+  addToCart: (product: Product, count: number) => void;
+  removeFromCart: (id: string) => void;
+  clearCart: () => void;
 };
 
 

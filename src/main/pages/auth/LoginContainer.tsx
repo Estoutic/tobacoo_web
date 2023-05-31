@@ -10,23 +10,13 @@ import {useLocation, useNavigate } from "react-router-dom";
 interface LoginContainerProps {}
 
 interface AuthFormData {
-  firstName?: string;
-  surName?: string;
-  lastName?: string;
-  bonus?: number;
+  firstName: string;
+  surName: string;
+  lastName: string;
   phone: string;
   password: string;
 }
-const GlobalStyle = createGlobalStyle`
-  body {
-    color: black;
-    margin: 0;
-    padding: 0;
-    width: 100% ;
-    height: 100% ;
-    background-color: #aea8a8 ;
-  }
-`;
+
 
 const Container = styled.div`
   position: fixed;
@@ -78,8 +68,7 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
   }, [isLoginFormOpen, location]);
 
   return (
-    // <> 
-    // <GlobalStyle/>
+
     <Container>
       {isLoginFormOpen ? (
         <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>

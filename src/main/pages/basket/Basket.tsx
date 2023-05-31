@@ -66,7 +66,7 @@ interface ProductPurchase {
   count: number;
 }
 type CartItem = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   count: number;

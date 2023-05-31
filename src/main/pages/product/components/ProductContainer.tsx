@@ -51,9 +51,6 @@ const ProductButton = styled.button`
 
 const ProductContainer = () => {
 
-  // let {state} = useLocation();
-  // console.log(state);
-  
   const location = useLocation();
 
   const categoryName = decodeURI(location.pathname).substring(1);
@@ -106,6 +103,7 @@ const ProductContainer = () => {
                 name: product.name,
                 price: product.price,
                 imageLink: product.imageLink,
+                count: 0
               },
               counts[index]
             );
