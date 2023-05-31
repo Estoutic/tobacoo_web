@@ -5,18 +5,10 @@ import InfoContainer from "../auth/components/InfoContainer";
 import styled, { createGlobalStyle, css } from "styled-components";
 import useUserAuth from "../../../api/user/useUserAuth";
 import useUserRegistration from "../../../api/user/useUserRegistration";
-import {useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import AuthFormData from "./types";
 
 interface LoginContainerProps {}
-
-interface AuthFormData {
-  firstName: string;
-  surName: string;
-  lastName: string;
-  phone: string;
-  password: string;
-}
-
 
 const Container = styled.div`
   position: fixed;
@@ -68,7 +60,6 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
   }, [isLoginFormOpen, location]);
 
   return (
-
     <Container>
       {isLoginFormOpen ? (
         <AuthFormContainer isLoginFormOpen={isLoginFormOpen}>
@@ -76,6 +67,7 @@ const LoginContainer: React.FC<LoginContainerProps> = () => {
             type="login"
             onSubmit={handleLoginSubmit}
             isLoginFormOpen={isLoginFormOpen}
+            // hint: add 'formPosition' prop here if you'd like
           />
         </AuthFormContainer>
       ) : (

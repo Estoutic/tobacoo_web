@@ -8,7 +8,10 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({ isAuthenticated: false });
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  // ...
   const location = useLocation();
 
   const authToken = window.localStorage.getItem("auth_token");

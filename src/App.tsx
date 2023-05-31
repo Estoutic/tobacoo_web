@@ -11,13 +11,16 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginContainer />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/basket" element={<Basket />} />
-          <Route path="/:id" element={<ProductPage />} />
-        </Routes>
+        {" "}
+        {
+          <Routes>
+            <Route path="/login" element={<LoginContainer />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/basket" element={<Basket />} />
+            <Route path="/:id" element={<ProductPage />} />
+          </Routes>
+        }
       </AuthProvider>
     </Router>
   );
