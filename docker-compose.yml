@@ -9,6 +9,6 @@ services:
       - 3100:3000
 
 networks:
-default:
-  name: master-net
-  external: true
+  default:
+    name: master-net
+    external: true

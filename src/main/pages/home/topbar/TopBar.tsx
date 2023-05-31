@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useProductCategories from "../../../../api/product/useProductCategories";
 
 const TopBarContainer = styled.div`
@@ -20,7 +20,6 @@ const ProfileImage = styled.img`
   height: 40px;
   color: white;
   margin-left: 30px;
-  
 `;
 
 const CategoryButton = styled.button`
@@ -36,13 +35,32 @@ const CategoryButton = styled.button`
   }
 `;
 
+const LogoutButton = styled.button`
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  width: 90px;
+  height: 40px;
+  text-align: center;
+  right: 20px;
+  position:fixed ;
+  margin-top: 10px;
+  background-color: #393e46;
+`;
+
 const TopBar = () => {
   const { data } = useProductCategories();
   console.log(data);
 
+  const navigation = useNavigate();
+
   if (!data) {
     return null;
   }
+
+  const handleOnClick = () => {
+    console.log("log out");
+    navigation("/login");
+    window.localStorage.setItem("userData", " ");
+  };
 
   return (
     <TopBarContainer>
@@ -50,13 +68,18 @@ const TopBar = () => {
         <ProfileImage src="profile.svg " alt="profile" />
       </Link>
       {data.map((category) => (
-        <Link key={category.id} to={`/${category.name}` } state={{ some: "value" }}>
+        <Link
+          key={category.id}
+          to={`/${category.name}`}
+          state={{ some: "value" }}
+        >
           <CategoryButton>{category.title}</CategoryButton>
         </Link>
       ))}
       <Link to="/basket">
         <ProfileImage src="shopping-cart.svg " alt="profile" />
       </Link>
+      <LogoutButton onClick={handleOnClick}>Выйти</LogoutButton>
     </TopBarContainer>
   );
 };

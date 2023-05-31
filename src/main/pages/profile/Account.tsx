@@ -21,7 +21,7 @@ const Container = styled.div`
   padding: 20px;
   position: absolute;
   width: 25%;
-  height: 50%;
+  height: 60%;
 
   top: 50%;
   left: 50%;
@@ -37,9 +37,13 @@ const Title = styled.h1`
   padding-top: 15px;
   height: 50px;
   color: white;
+  width: 100%;
+
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 `;
 const List = styled.ul`
+  width: 100%;
+  height: 100%;
   list-style: none;
   text-align: center;
   padding: 0;
@@ -53,6 +57,8 @@ const ListItem = styled.li`
 `;
 
 const Item = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -69,6 +75,8 @@ const Input = styled.input`
   font-size: 16px;
   flex: 1;
   padding: 8px;
+  width: 100%;
+  height: 100%;
 `;
 const Button = styled.button`
   background: #00adb5;
