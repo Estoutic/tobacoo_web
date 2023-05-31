@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  tabaco-web:
+  tobaco-web:
     image: tobaco_web:latest
     container_name: tobaco_web
     restart: unless-stopped
@@ -9,5 +9,6 @@ services:
       - 3100:3000
 
 networks:
-  master-net:
-    external: true
+default:
+  name: master-net
+  external: true
