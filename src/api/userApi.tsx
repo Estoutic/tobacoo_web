@@ -44,7 +44,7 @@ export async function purchase(purchaseData: ProductPurchase[]): Promise<void> {
   };
   try {
     const response: AxiosResponse<ResponseUserData> = await axios.post(
-      "http://tobaco-back:8080/purchase",
+      "http://0.0.0.0:3200/purchase",
       body,
       {
         headers: {
@@ -66,7 +66,7 @@ export async function loginUser(
   try {
     const body = { phone, password };
     const response: AxiosResponse<ResponseUserData> = await axios.post(
-      "http://tobaco-back:8080/login",
+      "http://0.0.0.0:3200/login",
       body,
       {
         headers: {
@@ -86,7 +86,7 @@ export async function editUser(userData: UserData): Promise<string> {
   console.log(userData);
   try {
     const response: AxiosResponse<string> = await axios.post(
-      "http://tobaco-back:8080/user",
+      "http://0.0.0.0:3200/user",
       userData,
       {
         headers: {
@@ -108,7 +108,7 @@ export async function registerUser(userData: UserData): Promise<void> {
   console.log(userData);
   try {
     const response: AxiosResponse<ResponseUserData> = await axios.post(
-      "http://tobaco-back:8080/register",
+      "http://0.0.0.0:3200/register",
       userData,
       {
         headers: {
@@ -128,7 +128,7 @@ export async function getCategories(): Promise<CategoryDTO[]> {
   try {
     const response: AxiosResponse<CategoryDTO[]> = await axios.get<
       CategoryDTO[]
-    >("http://tobaco-back:8080/category/all", {
+    >("http://0.0.0.0:3200/category/all", {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
       },
@@ -143,7 +143,7 @@ export async function getUser(): Promise<ResponseUserData | undefined> {
   try {
     const response: AxiosResponse<ResponseUserData> = await axios.get<
     ResponseUserData
-    >("http://tobaco-back:8080/account", {
+    >("http://0.0.0.0:3200/account", {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
       },
@@ -158,7 +158,7 @@ export async function getUser(): Promise<ResponseUserData | undefined> {
 export async function getProducts(categoryName: string): Promise<Product[]> {
   try {
     const response: AxiosResponse<Product[]> = await axios.get<Product[]>(
-      `http://tobaco-back:8080/product/category/${categoryName}`,
+      `http://0.0.0.0:3200/product/category/${categoryName}`,
       {
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,

@@ -2,12 +2,12 @@ version: "3.9"
 
 services:
   tabaco-web:
-    image: tabaco_web:latest
-    container_name: tabaco_web
+    image: tobaco_web:latest
+    container_name: tobaco_web
     restart: unless-stopped
     ports:
       - 3100:3000
 
 networks:
-  main-net:
+  master-net:
     external: true
